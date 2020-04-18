@@ -1,9 +1,0 @@
-
- * keychain 2.7.1 ~ http://www.funtoo.org
- * Found existing ssh-agent: 15331
- * Known ssh key: /home/remote/.ssh/github
-
-[master a6311d9] Sat Apr 18 18:38:03 EDT 2020
- 1 file changed, 1 insertion(+), 1 deletion(-)
-To git@github.com:williamwissemann/mmr_drift.git
-   cbc8a66..a6311d9  master -> master
