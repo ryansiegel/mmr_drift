@@ -63,7 +63,7 @@ stat.append(["date",
 
 
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
-    readme_file.write("# MMR Daily Status\n")
+    readme_file.write("# MMR Drift Status\n")
     readme_file.write("\n")
     readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()} ")
     readme_file.write("\n")
