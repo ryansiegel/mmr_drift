@@ -81,6 +81,15 @@ plt.gcf().autofmt_xdate()
 plt.savefig(f"{pwd_path}/../images/fig1.png", format="png")
 
 
+fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6))
+ax1.plot(df['date'], df['drift_total'])
+ax1.set_title('Total Drift')
+ax2.plot(df['date'], df['drift_daily'])
+ax2.set_title('Daily Drift')
+plt.gcf().autofmt_xdate()
+plt.savefig(f"{pwd_path}/../images/fig2.png", format="png")
+
+
 """
 fig, (ax1, ax2) = plt.subplots(1, 1, sharex=True, figsize=(6, 6))
 ax1.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
@@ -97,7 +106,8 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write("\n")
     readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()}\n")
 
-    readme_file.write(f"![FIG 1: XXX](/images/fig1.png)\n")
+    readme_file.write(f"![Figure 1](/images/fig1.png)\n")
+    readme_file.write(f"![Figure 2](/images/fig2.png)\n")
 
     header = True
     for row in stat[::-1]:
