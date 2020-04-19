@@ -1,6 +1,9 @@
 import os
 import json
 import statistics
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from datetime import datetime
 
 pwd_path = os.path.realpath(__file__).rstrip("populate_readme.py")
@@ -52,21 +55,49 @@ for timestamp in sorted(sData.keys()):
 
     stat.append(new_row)
 
-stat.append(["date",
-             "min",
-             "max",
-             "mean",
-             "drift_daily",
-             "drift_total",
-             "median",
-             "stdev"])
+
+clms = ["date",
+        "min",
+        "max",
+        "mean",
+        "drift_daily",
+        "drift_total",
+        "median",
+        "stdev"]
+
+df = pd.DataFrame(np.array(stat), columns=clms)
+for clm in clms:
+    if clm not in "date":
+        df[clm] = df[clm].astype(float)
+
+print(df)
+
+plt.title('Max, Min, Mean & Median')
+plt.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
+plt.plot(df['date'], df['mean'])
+plt.plot(df['date'], df['median'])
+plt.legend(['Mean', 'Median'], loc='upper left')
+plt.gcf().autofmt_xdate()
+plt.savefig(f"{pwd_path}/../images/fig1.png", format="png")
 
 
+"""
+fig, (ax1, ax2) = plt.subplots(1, 1, sharex=True, figsize=(6, 6))
+ax1.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
+ax1.plot(df['date'], df['median'])
+ax1.plot(df['date'], df['mean'])
+plt.gcf().autofmt_xdate()
+plt.show()
+"""
+
+
+stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write("# MMR Drift Status\n")
     readme_file.write("\n")
-    readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()} ")
-    readme_file.write("\n")
+    readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()}\n")
+
+    readme_file.write(f"![FIG 1: XXX](/images/fig1.png)\n")
 
     header = True
     for row in stat[::-1]:
