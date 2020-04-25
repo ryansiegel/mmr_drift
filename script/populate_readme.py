@@ -76,29 +76,20 @@ plt.title('Max, Min, Mean & Median')
 plt.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
 plt.plot(df['date'], df['mean'])
 plt.plot(df['date'], df['median'])
+plt.grid(linewidth=0.25)
 plt.legend(['Mean', 'Median'], loc='upper left')
 plt.gcf().autofmt_xdate()
 plt.savefig(f"{pwd_path}/../images/fig1.png", format="png")
 
-
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6))
 ax1.plot(df['date'], df['drift_total'])
 ax1.set_title('Total Drift')
+ax1.grid(linewidth=0.25)
 ax2.plot(df['date'], df['drift_daily'])
 ax2.set_title('Daily Drift')
+ax2.grid(linewidth=0.25)
 plt.gcf().autofmt_xdate()
 plt.savefig(f"{pwd_path}/../images/fig2.png", format="png")
-
-
-"""
-fig, (ax1, ax2) = plt.subplots(1, 1, sharex=True, figsize=(6, 6))
-ax1.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
-ax1.plot(df['date'], df['median'])
-ax1.plot(df['date'], df['mean'])
-plt.gcf().autofmt_xdate()
-plt.show()
-"""
-
 
 stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
