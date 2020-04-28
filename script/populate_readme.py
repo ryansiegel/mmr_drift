@@ -13,6 +13,8 @@ sData = {}
 
 for inFile in os.listdir(json_file):
     with open(os.path.join(json_file, inFile), 'r') as in_file:
+        if "latest" in inFile:
+          continue
         sID = inFile.rstrip(".json")
 
         jData = json.load(in_file)
