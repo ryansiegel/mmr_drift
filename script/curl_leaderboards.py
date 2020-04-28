@@ -7,7 +7,9 @@ import os
 pwd_path = os.path.realpath(__file__).rstrip("curl_leaderboards.py")
 stamp = datetime.today().strftime('%Y-%m-%d')
 stamp_json = f'{stamp}.json'
+latest_json = f'latest.json'
 json_file = os.path.join(pwd_path, "json", stamp_json)
+latest_file = os.path.join(pwd_path, "json", latest_json)
 
 url = "https://pokemongolive.com/_api/gbl.get_leaderboard"
 headers = {
@@ -28,3 +30,8 @@ json_data = json.loads(r.content)
 
 with open(json_file, 'w') as outfile:
     json.dump(json_data, outfile)
+
+with open(latest_file, 'w') as outfile:
+    json.dump(json_data, outfile)
+
+
