@@ -1,6 +1,6 @@
 # MMR Drift Status
 
-**Last Updated (UTC):** 2020-05-04 19:30:15.250817
+**Last Updated (UTC):** 2020-05-04 21:15:12.542580
 ![Figure 1](/images/fig1.png)
 ![Figure 2](/images/fig2.png)
 |date| min| max| mean| drift_daily| drift_total| median| stdev|
