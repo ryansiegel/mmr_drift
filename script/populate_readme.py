@@ -44,6 +44,7 @@ for timestamp in sorted(sData.keys()):
         prev_mean = rMean
         start_val = rMean
 
+    timestamp = datetime.strptime(timestamp, "%Y-%m-%d")
     new_row = [
         timestamp,
         min(rData),
@@ -74,14 +75,15 @@ for clm in clms:
 
 print(df)
 
+fig, ax = plt.subplots()
 plt.title('Max, Min, Mean & Median')
-plt.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
-plt.plot(df['date'], df['mean'])
-plt.plot(df['date'], df['median'])
-plt.grid(linewidth=0.25)
-plt.legend(['Mean', 'Median'], loc='upper left')
-plt.gcf().autofmt_xdate()
-plt.savefig(f"{pwd_path}/../images/fig1.png", format="png")
+ax.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
+ax.plot(df['date'], df['mean'])
+ax.plot(df['date'], df['median'])
+ax.grid(linewidth=0.25)
+ax.legend(['Mean', 'Median'], loc='best')
+fig.autofmt_xdate()
+fig.savefig(f"{pwd_path}/../images/fig1.png", format="png")
 
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6))
 ax1.plot(df['date'], df['drift_total'])
@@ -104,6 +106,9 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
 
     header = True
     for row in stat[::-1]:
+        if not header:
+            row[0] = row[0].strftime("%d-%b-%Y")
+
         row_len = len(row)
         row = str(row)
         row = row.replace("[", "")
