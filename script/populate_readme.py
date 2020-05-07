@@ -81,7 +81,7 @@ ax.fill_between(x='date', y1='min', y2='max', alpha=0.4, data=df)
 ax.plot(df['date'], df['mean'])
 ax.plot(df['date'], df['median'])
 ax.grid(linewidth=0.25)
-ax.legend(['Mean', 'Median'], loc='best')
+ax.legend(['Mean', 'Median'], loc='lower left')
 fig.autofmt_xdate()
 fig.savefig(f"{pwd_path}/../images/fig1.png", format="png")
 
