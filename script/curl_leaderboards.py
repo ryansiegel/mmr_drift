@@ -24,8 +24,10 @@ headers = {
     'referer': 'https://pokemongolive.com/leaderboard/?page=1',
     'accept-language': 'en-US,en;q=0.9',
 }
+data = '{"season": "current"}'
 
-r = requests.post(url, headers=headers)
+
+r = requests.post(url, headers=headers, data=data)
 json_data = json.loads(r.content)
 
 with open(json_file, 'w') as outfile:
