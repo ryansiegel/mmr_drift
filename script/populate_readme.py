@@ -128,13 +128,13 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write(f"![Figure 1](/images/season-2_MMMM.png)\n")
     readme_file.write(f"![Figure 2](/images/season-2_CHANGE.png)\n")
 
-    readme_file.write("# All Time\n")
-    readme_file.write(f"![Figure 1](/images/all-time_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/all-time_CHANGE.png)\n")
-
     readme_file.write("# Season 1\n")
     readme_file.write(f"![Figure 1](/images/season-1_MMMM.png)\n")
     readme_file.write(f"![Figure 2](/images/season-1_CHANGE.png)\n")
+
+    readme_file.write("# All Time\n")
+    readme_file.write(f"![Figure 1](/images/all-time_MMMM.png)\n")
+    readme_file.write(f"![Figure 2](/images/all-time_CHANGE.png)\n")
 
     header = True
     for row in stat[::-1]:
