@@ -22,17 +22,14 @@ def plots(data_frame, fig_name):
     fig.savefig(f"{pwd_path}../images/{fig_name}_MMMM.png", format="png")
 
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6))
-    data_frame.at[0, 'drift_total'] = 0
     ax1.plot(data_frame['date'], data_frame['drift_total'])
     ax1.set_title('Total Drift')
-    ax1.grid(linewidth=0.25)
-    data_frame.at[0, 'drift_daily'] = 0
+    ax1.grid(linewidth=0.25)  
     ax2.plot(data_frame['date'], data_frame['drift_daily'])
     ax2.set_title('Daily Drift')
     ax2.grid(linewidth=0.25)
     plt.gcf().autofmt_xdate()
     fig.savefig(f"{pwd_path}../images/{fig_name}_CHANGE.png", format="png")
-
 
 sData = {}
 
@@ -70,6 +67,7 @@ for timestamp in sorted(sData.keys()):
         start_val = rMean
 
     timestamp = datetime.strptime(timestamp, "%Y-%m-%d")
+
     new_row = [
         timestamp,
         min(rData),
@@ -104,8 +102,21 @@ plots(df, "all-time")
 season1 = (df['date'] > "2020-04-11") & (df['date'] <= "2020-05-11")
 plots(df.loc[season1].copy(), "season-1")
 # season 2 plots
-season2 = (df['date'] > "2020-05-12") & (df['date'] <= "2022-01-01")
-plots(df.loc[season2].copy(), "season-2")
+season2_mask = (df['date'] > "2020-05-12") & (df['date'] <= "2022-01-01")
+season2 = df.loc[season2_mask].copy()
+season_reset = True
+start_mean = 0
+for row in season2.head().itertuples():
+    if season_reset:
+        season2.at[row.Index, 'drift_total'] = 0
+        season2.at[row.Index, 'drift_daily'] = 0
+        start_mean = row.mean
+        season_reset = False
+    else:
+        prev_mean = season2.at[row.Index-1, 'mean']
+        season2.at[row.Index, 'drift_daily'] = round(row.mean - prev_mean, 1)
+        season2.at[row.Index, 'drift_total'] = round(row.mean - start_mean, 1)
+plots(season2, "season-2")
 
 stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
@@ -143,6 +154,4 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
             line = "|:---" * row_len + " |\n"
             readme_file.write(line)
             header = False
-
-
 
