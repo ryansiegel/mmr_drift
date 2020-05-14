@@ -22,9 +22,11 @@ def plots(data_frame, fig_name):
     fig.savefig(f"{pwd_path}../images/{fig_name}_MMMM.png", format="png")
 
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6))
+    data_frame.at[0, 'drift_total'] = 0
     ax1.plot(data_frame['date'], data_frame['drift_total'])
     ax1.set_title('Total Drift')
     ax1.grid(linewidth=0.25)
+    data_frame.at[0, 'drift_daily'] = 0
     ax2.plot(data_frame['date'], data_frame['drift_daily'])
     ax2.set_title('Daily Drift')
     ax2.grid(linewidth=0.25)
@@ -99,11 +101,11 @@ for clm in clms:
 # all time plots
 plots(df, "all-time")
 # season 1 plots
-season1 = (df['date'] > "2020-04-11") & (df['date'] <= "2020-05-12")
-plots(df.loc[season1], "season-1")
+season1 = (df['date'] > "2020-04-11") & (df['date'] <= "2020-05-11")
+plots(df.loc[season1].copy(), "season-1")
 # season 2 plots
 season2 = (df['date'] > "2020-05-12") & (df['date'] <= "2022-01-01")
-plots(df.loc[season2], "season-2")
+plots(df.loc[season2].copy(), "season-2")
 
 stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
@@ -111,8 +113,17 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write("\n")
     readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()}\n")
 
+    readme_file.write("# Season 2\n")
     readme_file.write(f"![Figure 1](/images/season-2_MMMM.png)\n")
     readme_file.write(f"![Figure 2](/images/season-2_CHANGE.png)\n")
+
+    readme_file.write("# All Time\n")
+    readme_file.write(f"![Figure 1](/images/all-time_MMMM.png)\n")
+    readme_file.write(f"![Figure 2](/images/all-time_CHANGE.png)\n")
+
+    readme_file.write("# Season 1\n")
+    readme_file.write(f"![Figure 1](/images/season-1_MMMM.png)\n")
+    readme_file.write(f"![Figure 2](/images/season-1_CHANGE.png)\n")
 
     header = True
     for row in stat[::-1]:
@@ -133,11 +144,5 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
             readme_file.write(line)
             header = False
 
-    readme_file.write("# All Time\n")
-    readme_file.write(f"![Figure 1](/images/all-time_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/all-time_CHANGE.png)\n")
 
-    readme_file.write("# Season 1\n")
-    readme_file.write(f"![Figure 1](/images/season-2_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/season-2_CHANGE.png)\n")
 
