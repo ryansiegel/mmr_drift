@@ -1,6 +1,6 @@
 # MMR Drift Status
 
-**Last Updated (UTC):** 2020-05-15 19:30:16.827617
+**Last Updated (UTC):** 2020-05-15 21:15:14.808954
 # Season 2
 ![Figure 1](/images/season-2_MMMM.png)
 ![Figure 2](/images/season-2_CHANGE.png)
