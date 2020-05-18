@@ -106,7 +106,7 @@ season2_mask = (df['date'] > "2020-05-12") & (df['date'] <= "2022-01-01")
 season2 = df.loc[season2_mask].copy()
 season_reset = True
 start_mean = 0
-for row in season2.head().itertuples():
+for row in season2.itertuples():
     if season_reset:
         season2.at[row.Index, 'drift_total'] = 0
         season2.at[row.Index, 'drift_daily'] = 0
@@ -116,6 +116,7 @@ for row in season2.head().itertuples():
         prev_mean = season2.at[row.Index-1, 'mean']
         season2.at[row.Index, 'drift_daily'] = round(row.mean - prev_mean, 1)
         season2.at[row.Index, 'drift_total'] = round(row.mean - start_mean, 1)
+print(season2)
 plots(season2, "season-2")
 
 stat.append(clms)
