@@ -1,6 +1,6 @@
 # MMR Drift Status
 
-**Last Updated (UTC):** 2020-05-17 21:15:16.319905
+**Last Updated (UTC):** 2020-05-18 19:30:17.701069
 # Season 2
 ![Figure 1](/images/season-2_MMMM.png)
 ![Figure 2](/images/season-2_CHANGE.png)
@@ -12,6 +12,7 @@
 ![Figure 2](/images/all-time_CHANGE.png)
 |date| min| max| mean| drift_daily| drift_total| median| stdev|
 |:---|:---|:---|:---|:---|:---|:---|:--- |
+|18-May-2020| 2390| 2553| 2428.1| 18.5| -566.5| 2421.0| 31.2|
 |17-May-2020| 2372| 2527| 2409.6| 16.0| -585.0| 2401.0| 32.4|
 |16-May-2020| 2354| 2522| 2393.7| 20.5| -601.0| 2386.0| 32.0|
 |15-May-2020| 2332| 2514| 2373.2| 30.8| -621.4| 2366.0| 34.2|
