@@ -40,6 +40,8 @@ for inFile in os.listdir(json_file):
         sID = inFile.rstrip(".json")
 
         jData = json.load(in_file)
+        if 'trainers' not in jData:
+            continue
         sData[sID] = {}
         for el in jData.get('trainers'):
             ratings = el.get('rating')
