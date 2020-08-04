@@ -31,8 +31,27 @@ def plots(data_frame, fig_name):
     plt.gcf().autofmt_xdate()
     fig.savefig(f"{pwd_path}../images/{fig_name}_CHANGE.png", format="png")
 
-sData = {}
 
+def season_plot(df, start_date, end_date, season_name):
+    season_mask = (df['date'] > start_date) & (df['date'] <= end_date)
+    season_df = df.loc[season_mask].copy()
+    season_reset = True
+    start_mean = 0
+    for row in season_df.itertuples():
+        if season_reset:
+            season_df.at[row.Index, 'drift_total'] = 0
+            season_df.at[row.Index, 'drift_daily'] = 0
+            start_mean = row.mean
+            season_reset = False
+        else:
+            prev_mean = season_df.at[row.Index-1, 'mean']
+            season_df.at[row.Index, 'drift_daily'] = round(row.mean - prev_mean, 1)
+            season_df.at[row.Index, 'drift_total'] = round(row.mean - start_mean, 1)
+    print(season_df)
+    plots(season_df, season_name)
+
+
+sData = {}
 for inFile in os.listdir(json_file):
     with open(os.path.join(json_file, inFile), 'r') as in_file:
         if "latest" in inFile:
@@ -101,31 +120,21 @@ for clm in clms:
 # all time plots
 plots(df, "all-time")
 # season 1 plots
-season1 = (df['date'] > "2020-04-11") & (df['date'] <= "2020-05-11")
-plots(df.loc[season1].copy(), "season-1")
+season_plot(df, "2020-04-11", "2020-05-11", "season-1")
 # season 2 plots
-season2_mask = (df['date'] > "2020-05-12") & (df['date'] <= "2022-01-01")
-season2 = df.loc[season2_mask].copy()
-season_reset = True
-start_mean = 0
-for row in season2.itertuples():
-    if season_reset:
-        season2.at[row.Index, 'drift_total'] = 0
-        season2.at[row.Index, 'drift_daily'] = 0
-        start_mean = row.mean
-        season_reset = False
-    else:
-        prev_mean = season2.at[row.Index-1, 'mean']
-        season2.at[row.Index, 'drift_daily'] = round(row.mean - prev_mean, 1)
-        season2.at[row.Index, 'drift_total'] = round(row.mean - start_mean, 1)
-print(season2)
-plots(season2, "season-2")
+season_plot(df, "2020-05-12", "2020-08-01", "season-2")
+# season 3 plots
+season_plot(df, "2020-08-02", "2022-01-01", "season-3")
 
 stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write("# MMR Drift Status\n")
     readme_file.write("\n")
     readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()}\n")
+
+    readme_file.write("# Season 3\n")
+    readme_file.write(f"![Figure 1](/images/season-3_MMMM.png)\n")
+    readme_file.write(f"![Figure 2](/images/season-3_CHANGE.png)\n")
 
     readme_file.write("# Season 2\n")
     readme_file.write(f"![Figure 1](/images/season-2_MMMM.png)\n")
@@ -157,4 +166,3 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
             line = "|:---" * row_len + " |\n"
             readme_file.write(line)
             header = False
-
