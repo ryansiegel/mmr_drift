@@ -1,6 +1,6 @@
 # MMR Drift Status
 
-**Last Updated (UTC):** 2020-10-02 21:15:22.407019
+**Last Updated (UTC):** 2020-10-03 19:30:23.332855
 # Season 3
 ![Figure 1](/images/season-3_MMMM.png)
 ![Figure 2](/images/season-3_CHANGE.png)
@@ -15,6 +15,7 @@
 ![Figure 2](/images/all-time_CHANGE.png)
 |date| min| max| mean| drift_daily| drift_total| median| stdev|
 |:---|:---|:---|:---|:---|:---|:---|:--- |
+|03-Oct-2020| 3085| 3395| 3149.0| 0.0| 154.4| 3132.0| 55.3|
 |02-Oct-2020| 3085| 3395| 3149.0| 0.0| 154.4| 3132.0| 55.3|
 |01-Oct-2020| 3085| 3395| 3149.0| 0.0| 154.4| 3132.0| 55.3|
 |30-Sep-2020| 3085| 3395| 3149.0| 0.0| 154.4| 3132.0| 55.3|
