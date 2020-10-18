@@ -4,7 +4,8 @@ import statistics
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from datetime import datetime
+from datetime import datetime, timedelta
+
 
 pwd_path = os.path.realpath(__file__).rstrip("populate_readme.py")
 json_file = os.path.join(pwd_path, "json")
@@ -66,7 +67,8 @@ for inFile in os.listdir(json_file):
             ratings = el.get('rating')
             if 'ratings' not in sData[sID]:
                 sData[sID]['ratings'] = []
-            sData[sID]['ratings'].append(ratings)
+            if ratings > 100:
+                sData[sID]['ratings'].append(ratings)
 
 stat = []
 
@@ -99,9 +101,29 @@ for timestamp in sorted(sData.keys()):
         round(statistics.median(rData), 1),
         round(statistics.stdev(rData), 1)
     ]
-
     stat.append(new_row)
 
+    backfill = datetime.strptime("2020-06-22", "%Y-%m-%d")
+    if backfill == timestamp:
+        missing = 27
+        for x in range(missing):
+            backfill = timestamp + timedelta(days= x + 1)
+            change = (321.3 / (missing + 1)) 
+            offset = ((change) * (x + 1))
+            new_row = [
+                backfill,
+                round(rMean + offset, 1),
+                round(rMean + offset, 1),
+                round(rMean + offset, 1),
+                round(change, 1),
+                round(start_diff + offset, 1),
+                round(statistics.median(rData) + offset, 1),
+                0,
+            ]
+            stat.append(new_row)
+        prev_mean = rMean + offset
+    
+    backfill = datetime.strptime("2020-07-20", "%Y-%m-%d")
 
 clms = ["date",
         "min",
@@ -124,13 +146,19 @@ season_plot(df, "2020-04-11", "2020-05-11", "season-1")
 # season 2 plots
 season_plot(df, "2020-05-12", "2020-08-01", "season-2")
 # season 3 plots
-season_plot(df, "2020-08-02", "2022-01-01", "season-3")
+season_plot(df, "2020-08-02", "2020-09-13", "season-3")
+# season 4 plots
+season_plot(df, "2020-10-04", "2022-01-01", "season-4")
 
 stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write("# MMR Drift Status\n")
     readme_file.write("\n")
     readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()}\n")
+
+    readme_file.write("# Season 4\n")
+    readme_file.write(f"![Figure 1](/images/season-4_MMMM.png)\n")
+    readme_file.write(f"![Figure 2](/images/season-4_CHANGE.png)\n")
 
     readme_file.write("# Season 3\n")
     readme_file.write(f"![Figure 1](/images/season-3_MMMM.png)\n")
