@@ -1,6 +1,6 @@
 # MMR Drift Status
 
-**Last Updated (UTC):** 2021-05-16 21:15:28.469107
+**Last Updated (UTC):** 2021-05-17 19:30:33.729435
 # Season 4
 ![Figure 1](/images/season-4_MMMM.png)
 ![Figure 2](/images/season-4_CHANGE.png)
@@ -18,6 +18,7 @@
 ![Figure 2](/images/all-time_CHANGE.png)
 |date| min| max| mean| drift_daily| drift_total| median| stdev|
 |:---|:---|:---|:---|:---|:---|:---|:--- |
+|17-May-2021| 3306| 3730| 3410.3| 8.6| 415.7| 3387.0| 82.6|
 |16-May-2021| 3301| 3692| 3401.7| 9.4| 407.1| 3382.0| 82.7|
 |15-May-2021| 3291| 3692| 3392.3| 7.0| 397.7| 3372.5| 80.6|
 |14-May-2021| 3284| 3689| 3385.3| 11.3| 390.6| 3362.5| 83.3|
