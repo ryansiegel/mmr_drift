@@ -1,6 +1,6 @@
 # MMR Drift Status
 
-**Last Updated (UTC):** 2021-05-21 19:30:33.897176
+**Last Updated (UTC):** 2021-05-21 21:15:27.408683
 # Season 4
 ![Figure 1](/images/season-4_MMMM.png)
 ![Figure 2](/images/season-4_CHANGE.png)
