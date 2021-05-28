@@ -53,6 +53,7 @@ def season_plot(df, start_date, end_date, season_name):
 
 
 sData = {}
+seasons_calc = {}
 for inFile in os.listdir(json_file):
     with open(os.path.join(json_file, inFile), 'r') as in_file:
         if "latest" in inFile:
@@ -69,6 +70,21 @@ for inFile in os.listdir(json_file):
                 sData[sID]['ratings'] = []
             if ratings > 100:
                 sData[sID]['ratings'].append(ratings)
+
+        s = str(jData.get('season',1))
+        if s not in seasons_calc:
+            seasons_calc[s] = []
+        seasons_calc[s].append(datetime.strptime(sID, "%Y-%m-%d"))
+
+seasons = {}
+for key in sorted(seasons_calc):
+    sorted_list = sorted(seasons_calc[key])
+    seasons[key] = {
+        'start': sorted_list[0],
+        'start_str': sorted_list[0].strftime("%Y-%m-%d"),
+        'end': sorted_list[len(sorted_list)-1],
+        'end_str': sorted_list[len(sorted_list)-1].strftime("%Y-%m-%d")
+    }
 
 stat = []
 
@@ -141,14 +157,12 @@ for clm in clms:
 
 # all time plots
 plots(df, "all-time")
-# season 1 plots
-season_plot(df, "2020-04-11", "2020-05-11", "season-1")
-# season 2 plots
-season_plot(df, "2020-05-12", "2020-08-01", "season-2")
-# season 3 plots
-season_plot(df, "2020-08-02", "2020-09-13", "season-3")
-# season 4 plots
-season_plot(df, "2020-10-04", "2022-01-01", "season-4")
+
+for key in sorted(seasons):
+    start = seasons[key]['start_str']
+    end = seasons[key]['end_str']
+    season_plot(df, start, end, f"season-{key}")
+
 
 stat.append(clms)
 with open(f'{pwd_path}/../README.md', 'w') as readme_file:
@@ -156,25 +170,14 @@ with open(f'{pwd_path}/../README.md', 'w') as readme_file:
     readme_file.write("\n")
     readme_file.write(f"**Last Updated (UTC):** {datetime.utcnow()}\n")
 
-    readme_file.write("# Season 4\n")
-    readme_file.write(f"![Figure 1](/images/season-4_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/season-4_CHANGE.png)\n")
-
-    readme_file.write("# Season 3\n")
-    readme_file.write(f"![Figure 1](/images/season-3_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/season-3_CHANGE.png)\n")
-
-    readme_file.write("# Season 2\n")
-    readme_file.write(f"![Figure 1](/images/season-2_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/season-2_CHANGE.png)\n")
-
-    readme_file.write("# Season 1\n")
-    readme_file.write(f"![Figure 1](/images/season-1_MMMM.png)\n")
-    readme_file.write(f"![Figure 2](/images/season-1_CHANGE.png)\n")
-
     readme_file.write("# All Time\n")
     readme_file.write(f"![Figure 1](/images/all-time_MMMM.png)\n")
     readme_file.write(f"![Figure 2](/images/all-time_CHANGE.png)\n")
+
+    for key in sorted(seasons)[::-1]:
+        readme_file.write(f"# Season {key}\n")
+        readme_file.write(f"![Figure 1](/images/season-{key}_MMMM.png)\n")
+        readme_file.write(f"![Figure 2](/images/season-{key}_CHANGE.png)\n")
 
     header = True
     for row in stat[::-1]:
